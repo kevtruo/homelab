@@ -28,6 +28,8 @@ Work IDs take the form `<codeword>-<n>` in lowercase, where `n` is the sprint nu
 
 Each codeword, and `portshift`, has a matching GitHub label of the same name. Issues and PRs carry the label of the initiative or effort that owns the work.
 
+Each sprint also has a label matching its ID, for example `portshift-1`. Sprint Issues and PRs carry both the codeword label and the sprint label.
+
 ## Legacy mapping
 
 Earlier work used prefix-based IDs. Legacy IDs are history: they remain valid references and are not renamed.
