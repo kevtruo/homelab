@@ -4,7 +4,7 @@ A personal homelab for learning cloud security, identity, security analytics, an
 
 This repository provides an overview of the project and its engineering principles. Implementation is maintained in the repositories that own each component.
 
-See [Architecture](docs/architecture.md) for the conceptual model and public disclosure boundary.
+See [Architecture](docs/architecture.md) for the conceptual model and public disclosure boundary, and [Initiatives](docs/initiatives.md) for initiative codewords and work ID conventions.
 
 ## Work tracking
 
