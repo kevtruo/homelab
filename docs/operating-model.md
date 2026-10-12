@@ -11,7 +11,7 @@ Work is architect-directed, agent-executed, PR-gated, and human-authorized. Desi
 | Captain | Authorizes work, reviews pull requests, and merges |
 | Architecture | Designs the system and records design decisions |
 | Orchestrator | Maintains the roadmap, plans sprints, and prepares handoffs |
-| Execution session | A Claude Code session that carries out one sprint and stops at the pull request |
+| Execution session | An agent session, currently Claude Code, that carries out one sprint and stops at the pull request |
 
 ## Flow
 
