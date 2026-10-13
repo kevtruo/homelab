@@ -8,6 +8,7 @@ Read before working here:
 - [Repositories](docs/repositories.md): what belongs in the public and private repositories
 - [Initiatives](docs/initiatives.md): codewords, sprint IDs, and labels
 - [Architecture](docs/architecture.md): conceptual model and disclosure boundary
+- [Tracking procedure](docs/tracking.md): sprint entry steps, field reconcile, and sprint review
 
 Execution sessions stop at the pull request. They do not merge or push to `main`.
 
