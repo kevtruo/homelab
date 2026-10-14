@@ -53,6 +53,8 @@ The Project has no Priority field.
 
 The codeword label is authoritative, and the Initiative field mirrors it. Whoever creates an Issue or PR sets the label first, then sets the field to match. Each sprint review reports any label/field mismatches.
 
+The [Tracking procedure](tracking.md) covers sprint entry steps, the field reconcile at sprint boundaries, and sprint review.
+
 ## Legacy mapping
 
 Earlier work used prefix-based IDs. Legacy IDs are history: they remain valid references and are not renamed.
