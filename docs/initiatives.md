@@ -18,16 +18,36 @@ A codeword for Agent Operations has not been assigned yet.
 
 ## Portshift
 
-Portshift is a bounded effort to transition Homelab work from ChatGPT to Claude. It is a transition effort, not an initiative. Any new capability it produces belongs to the initiative that owns that capability. Portshift closes when its done criteria are met.
+Portshift was a bounded effort to transition Homelab work from ChatGPT to Claude. It was a transition effort, not an initiative. Each new capability it produced belongs to the initiative that owns that capability.
+
+**Status: Closed (2026-10-13).** All four done criteria are met. Portshift ran three sprints: `portshift-1` through `portshift-3`. The `portshift` label and Initiative option remain as history.
 
 ### Done criteria
 
 | # | Criterion | Status |
 | --- | --- | --- |
 | 1 | portshift-1 merged | Met |
-| 2 | The Homelab Project is the single tracker: every open item in every Homelab repository has Status, Initiative and Sprint, status updates are automatic, and nothing sensitive is public | In progress (portshift-2) |
-| 3 | ChatGPT-era code tracking is retired, and Claude Code tracking is in place | Not started (portshift-3) |
-| 4 | Closeout record merged in this document | Not started |
+| 2 | The Homelab Project is the single tracker: every open item in every Homelab repository has Status, Initiative and Sprint, status updates are automatic, and nothing sensitive is public | Met |
+| 3 | ChatGPT-era code tracking is retired, and Claude Code tracking is in place | Met |
+| 4 | Closeout record merged in this document | Met |
+
+### Closeout record
+
+**Criterion 1 — Met (2026-10-12).** The Claude operating baseline merged: initiative codewords and work IDs ([#2](https://github.com/kevtruo/homelab/pull/2), [#7](https://github.com/kevtruo/homelab/pull/7)), and the operating model, repository boundaries and `CLAUDE.md` ([#8](https://github.com/kevtruo/homelab/pull/8)). The matching changes for the private repository are recorded in the private infrastructure repository.
+
+**Criterion 2 — Met (2026-10-13).** The [Homelab Project](https://github.com/users/kevtruo/projects/1) is the single tracker:
+- Fields: Initiative and Sprint ([#9](https://github.com/kevtruo/homelab/issues/9)).
+- Workflows and views: auto-add, Backlog on add, Done on close and on merge, and the Board, Current Sprint and History views ([#10](https://github.com/kevtruo/homelab/issues/10)).
+- A sanitized Project README ([#11](https://github.com/kevtruo/homelab/issues/11)).
+- Field rules ([#12](https://github.com/kevtruo/homelab/issues/12), [#13](https://github.com/kevtruo/homelab/pull/13)).
+
+On 2026-10-13, merged pull requests were observed moving to Done automatically, including [#18](https://github.com/kevtruo/homelab/pull/18). The first field reconcile found zero Initiative or Sprint gaps on open items. Items from the private repository are visible only to the owner; that evidence is recorded in the private infrastructure repository.
+
+**Criterion 3 — Met (2026-10-13).** The custom GitHub App used by the earlier ChatGPT/Codex contributor workflow has been deleted, and its local token tooling has been removed. The interim tracking procedure is documented in [Tracking procedure](tracking.md) ([#18](https://github.com/kevtruo/homelab/pull/18)) and was first run on 2026-10-12. Supporting evidence for the private repository is recorded in the private infrastructure repository.
+
+**Criterion 4 — Met (2026-10-13).** This record ([#17](https://github.com/kevtruo/homelab/issues/17)).
+
+Follow-on work belongs to `yeoman`: the Claude GitHub App as the AI contributor identity, and branch hygiene.
 
 ## ID convention
 
@@ -57,7 +77,7 @@ The [Tracking procedure](tracking.md) covers sprint entry steps, the field recon
 
 ## Legacy mapping
 
-Earlier work used prefix-based IDs. Legacy IDs are history: they remain valid references and are not renamed.
+Earlier work used prefix-based IDs. Legacy IDs are history: they remain valid references and are not renamed. This mapping is final as of the Portshift closeout; new work uses codeword sprint IDs only.
 
 | Legacy prefix | Codeword |
 | --- | --- |
