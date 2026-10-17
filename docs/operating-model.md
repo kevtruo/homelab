@@ -78,7 +78,7 @@ Codewords, statuses, and ID conventions are listed in [Initiatives](initiatives.
 
 **suppo (Cost/FinOps).** Cost visibility and anomaly detection. This work is folded into quartermaster.
 
-**portshift.** A bounded transition effort, not an initiative. It moves Homelab operations from ChatGPT to Claude, and any capability it produces belongs to the owning initiative.
+**portshift.** A bounded transition effort, not an initiative, now closed. It moved Homelab operations from ChatGPT to Claude, and each capability it produced belongs to the owning initiative.
 
 ## Principles
 
