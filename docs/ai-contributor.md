@@ -18,20 +18,24 @@ AI contributions to Homelab repositories come from Claude Code execution session
 
 ## Production rules
 
-Each Homelab repository has one ruleset on its default branch:
+Each Homelab repository has two rulesets on its default branch. They are split so that the administrator bypass for review cannot skip the required check: a bypass applies to every rule in its ruleset.
 
-| Rule | Setting |
-| --- | --- |
-| Pull request | Required, with 1 approval. A new commit dismisses an existing approval. Conversations must be resolved. |
-| Required status check | `gate` only |
-| Force pushes | Blocked |
-| Deletion | Restricted |
-| Bypass | The repository administrator role, for pull requests only. No other actor. |
-| Not used | Code owner review, required signed commits, and an update restriction rule |
+| Ruleset | Rule | Setting |
+| --- | --- | --- |
+| Review | Pull request | Required, with 1 approval. A new commit dismisses an existing approval. Conversations must be resolved. |
+| Review | Bypass | The repository administrator role, for pull requests only. No other actor. |
+| Gate | Required status check | `gate` only, reported by GitHub Actions |
+| Gate | Force pushes | Blocked |
+| Gate | Deletion | Restricted |
+| Gate | Bypass | None |
 
-Because the operator authors every pull request and cannot approve it, each merge is an administrator bypass made through the pull request. It is visible in rule insights. The bypass covers every rule in the ruleset, `gate` included, so the operator merges only when `gate` has passed.
+Not used: code owner review, required signed commits, and an update restriction rule.
 
-There is no update restriction rule. The sandbox showed that an administrator-only update rule makes every merge a bypass and hides a skipped approval among normal merges. With pull-request-only bypass, direct pushes to the default branch are already blocked.
+Because the operator authors every pull request and cannot approve it, each merge bypasses the review ruleset through the pull request, and the bypass is visible in rule insights. The gate ruleset has no bypass, so no merge to the default branch can skip a passing `gate`. Direct pushes to the default branch are blocked, because the review ruleset requires a pull request and its bypass works only through one.
+
+There is no update restriction rule. The sandbox showed that an administrator-only update rule makes every merge a bypass and hides a skipped approval among normal merges. Pull-request-only bypass already blocks direct pushes.
+
+Rulesets on a private repository need a paid GitHub plan. On the free plan, neither rulesets nor protected branches apply to private repositories.
 
 `gate` runs on every pull request with no path filters. It has no cloud access, its actions are pinned by commit SHA, and checkout does not persist credentials. In the private infrastructure repository it also enforces plan coverage: a pull request that touches a plan workflow's paths cannot pass `gate` until that plan has succeeded on its head commit. The checks in each repository are listed in the [code review standard](code-review.md#what-gate-checks).
 
