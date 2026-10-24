@@ -1,0 +1,5 @@
+config:
+  # Paragraphs are written one line each.
+  MD013: false
+  # The PR template starts with a section heading, not a title.
+  MD041: false

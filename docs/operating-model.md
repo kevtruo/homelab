@@ -8,9 +8,8 @@ Work is architect-directed, agent-executed, PR-gated, and human-authorized. Desi
 
 | Role | Responsibility |
 | --- | --- |
-| Captain | Authorizes work, reviews pull requests, and merges |
-| Architecture | Designs the system and records design decisions |
-| Orchestrator | Maintains the roadmap, plans sprints, and prepares handoffs |
+| Pilot | The human operator. Authorizes work, reviews pull requests, merges, and owns settings changes and deployments |
+| Planning | One planning role, combining the former Architecture and Orchestrator roles. Designs the system, records design decisions, maintains the roadmap, plans sprints, and prepares handoffs |
 | Execution session | An agent session, currently Claude Code, that carries out one sprint and stops at the pull request |
 
 ## Flow
@@ -20,7 +19,7 @@ Work is architect-directed, agent-executed, PR-gated, and human-authorized. Desi
 3. Branches
 4. Pull requests
 5. CI validation
-6. Human review
+6. Human review against the [code review checklist](code-review.md)
 7. Human merge
 8. Deployment workflow
 9. Runtime verification
