@@ -36,6 +36,7 @@ Portshift was a bounded effort to transition Homelab work from ChatGPT to Claude
 **Criterion 1 — Met (2026-10-12).** The Claude operating baseline merged: initiative codewords and work IDs ([#2](https://github.com/kevtruo/homelab/pull/2), [#7](https://github.com/kevtruo/homelab/pull/7)), and the operating model, repository boundaries and `CLAUDE.md` ([#8](https://github.com/kevtruo/homelab/pull/8)). The matching changes for the private repository are recorded in the private infrastructure repository.
 
 **Criterion 2 — Met (2026-10-13).** The [Homelab Project](https://github.com/users/kevtruo/projects/1) is the single tracker:
+
 - Fields: Initiative and Sprint ([#9](https://github.com/kevtruo/homelab/issues/9)).
 - Workflows and views: auto-add, Backlog on add, Done on close and on merge, and the Board, Current Sprint and History views ([#10](https://github.com/kevtruo/homelab/issues/10)).
 - A sanitized Project README ([#11](https://github.com/kevtruo/homelab/issues/11)).

@@ -2,18 +2,16 @@
 
 This is the interim procedure for tracking work done by Claude Code execution sessions in the [Homelab Project](https://github.com/users/kevtruo/projects/1). It applies until the AI contributor identity is in place under `yeoman`. Field definitions and labeling rules are in [Initiatives](initiatives.md#tracking).
 
-In sprint handoffs, the Captain is also called the Pilot.
-
 ## At every sprint plan
 
 Before work starts, two entry steps are completed and recorded:
 
 | Step | Action | Who |
 | --- | --- | --- |
-| E0a | Add the sprint ID as a `Sprint` field option, for example `portshift-3` | The execution session if it can write to the Project, otherwise the Captain |
-| E0b | Update the Current Sprint view filter to the new sprint ID | The Captain, in the web UI |
+| E0a | Add the sprint ID as a `Sprint` field option, for example `portshift-3` | The execution session if it can write to the Project, otherwise the Pilot |
+| E0b | Update the Current Sprint view filter to the new sprint ID | The Pilot, in the web UI |
 
-The sprint plan also names each Captain verification step (V1, V2, and so on). A sprint cannot close until every named step is done and recorded.
+The sprint plan also names each Pilot verification step (V1, V2, and so on). A sprint cannot close until every named step is done and recorded.
 
 ## During the sprint
 
@@ -28,7 +26,7 @@ Each pull request follows the same rules. It closes its Issue, and its descripti
 An item with no file changes (settings, web UI, or Git ref work) is done when all of these hold:
 
 - Its Issue carries a closing comment that records what changed and how it was verified, using an API readback where possible, plus any gaps.
-- Captain-only steps are recorded as Captain-attested, quoting the in-session confirmation and its date.
+- Pilot-only steps are recorded as Pilot-attested, quoting the in-session confirmation and its date.
 - The Issue is closed after that comment is posted.
 
 ## At sprint boundaries
@@ -59,7 +57,7 @@ The sprint review reports the result. The target is zero pending changes and zer
 
 The review states each item's completion state as defined in the [Operating model](operating-model.md#completion-states). It also reports:
 
-- the entry-step and Captain verification results;
+- the entry-step and Pilot verification results;
 - the reconcile result;
-- any unplanned settings changes, which need explicit Captain approval;
+- any unplanned settings changes, which need explicit Pilot approval;
 - discovered work.

@@ -1,0 +1,94 @@
+name: gate
+
+# Always-run PR gate and the only required status check on main. No path
+# filters, no cloud access, no id-token, no secrets. Checks are described in
+# docs/code-review.md. It re-runs when the PR title or body is edited,
+# because both are public and are part of the public-safety scan.
+
+on:
+  pull_request:
+    types: [opened, synchronize, reopened, edited]
+
+permissions:
+  contents: read
+
+concurrency:
+  group: gate-${{ github.event.pull_request.number }}
+  cancel-in-progress: true
+
+env:
+  ACTIONLINT_VERSION: 1.7.12
+  ACTIONLINT_SHA256: 8aca8db96f1b94770f1b0d72b6dddcb1ebb8123cb3712530b08cc387b349a3d8
+
+jobs:
+  gate:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - name: Checkout
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          fetch-depth: 0
+          persist-credentials: false
+
+      - name: Resolve PR diff base
+        id: diff
+        env:
+          HEAD_SHA: ${{ github.event.pull_request.head.sha }}
+        run: |
+          test "$(git rev-parse HEAD^2)" = "$HEAD_SHA"
+          echo "base=$(git rev-parse HEAD^1)" >> "$GITHUB_OUTPUT"
+
+      - name: Test gate scripts
+        run: python3 -m unittest discover -s scripts -p 'test_gate.py' -v
+
+      - name: Whitespace
+        run: python3 scripts/gate.py whitespace
+
+      - name: Markdown lint
+        uses: DavidAnson/markdownlint-cli2-action@21c1be1b93ad9ed58fa840aacc3f279cde2a72ff # v24.2.0
+        with:
+          globs: "**/*.md"
+
+      - name: Docs link check
+        run: python3 scripts/gate.py links
+
+      - name: Public-safety scan
+        env:
+          BASE_SHA: ${{ steps.diff.outputs.base }}
+          HEAD_SHA: ${{ github.event.pull_request.head.sha }}
+          PR_TITLE: ${{ github.event.pull_request.title }}
+          PR_BODY: ${{ github.event.pull_request.body }}
+          PR_BRANCH: ${{ github.event.pull_request.head.ref }}
+        run: |
+          printf '%s\n' "$PR_TITLE" > "$RUNNER_TEMP/title"
+          printf '%s\n' "$PR_BODY" > "$RUNNER_TEMP/body"
+          printf '%s\n' "$PR_BRANCH" > "$RUNNER_TEMP/branch"
+          git log --format='%B' "$BASE_SHA..$HEAD_SHA" > "$RUNNER_TEMP/commits"
+          python3 scripts/gate.py public-safety \
+            --text "PR title" "$RUNNER_TEMP/title" \
+            --text "PR body" "$RUNNER_TEMP/body" \
+            --text "branch name" "$RUNNER_TEMP/branch" \
+            --text "commit messages" "$RUNNER_TEMP/commits"
+
+      - name: Check for workflow changes
+        id: workflows
+        env:
+          BASE_SHA: ${{ steps.diff.outputs.base }}
+          HEAD_SHA: ${{ github.event.pull_request.head.sha }}
+        run: |
+          if git diff --quiet "$BASE_SHA...$HEAD_SHA" -- .github/; then
+            echo "changed=false" >> "$GITHUB_OUTPUT"
+          else
+            echo "changed=true" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Lint workflows
+        if: steps.workflows.outputs.changed == 'true'
+        run: |
+          cd "$RUNNER_TEMP"
+          curl -sSfL -o actionlint.tar.gz "https://github.com/rhysd/actionlint/releases/download/v${ACTIONLINT_VERSION}/actionlint_${ACTIONLINT_VERSION}_linux_amd64.tar.gz"
+          echo "${ACTIONLINT_SHA256}  actionlint.tar.gz" | sha256sum -c -
+          tar -xzf actionlint.tar.gz actionlint
+          cd "$GITHUB_WORKSPACE"
+          "$RUNNER_TEMP/actionlint" -color
