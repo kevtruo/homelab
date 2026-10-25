@@ -11,3 +11,5 @@ See [Architecture](docs/architecture.md) for the conceptual model and public dis
 GitHub Projects tracks the roadmap, priorities, and progress across repositories. Issues define actionable work; pull requests implement changes.
 
 Project and architecture Issues belong here. Implementation Issues belong in the repository that owns the change.
+
+<!-- yeoman-2 V2 ruleset check. Do not merge without the Pilot's decision. -->
