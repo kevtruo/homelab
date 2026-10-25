@@ -4,12 +4,12 @@ This is the interim procedure for tracking work done by Claude Code execution se
 
 ## At every sprint plan
 
-Before work starts, two entry steps are completed and recorded:
+The two entry steps need no manual work per sprint:
 
-| Step | Action | Who |
+| Step | Action | How |
 | --- | --- | --- |
-| E0a | Add the sprint ID as a `Sprint` field option, for example `portshift-3` | The execution session if it can write to the Project, otherwise the Pilot |
-| E0b | Update the Current Sprint view filter to the new sprint ID | The Pilot, in the web UI |
+| E0a | A `Sprint` field option exists for the sprint ID, for example `portshift-3` | Automatic: the reconcile (`--apply`) creates it from the first item title that carries the sprint ID |
+| E0b | The Current Sprint view shows the active sprint | One-time: the view filter is `is:open -sprint:backlog -no:sprint`, so it never names a sprint ID. Closed work shows in the History view. |
 
 The sprint plan also names each Pilot verification step (V1, V2, and so on). A sprint cannot close until every named step is done and recorded.
 
@@ -31,27 +31,28 @@ An item with no file changes (settings, web UI, or Git ref work) is done when al
 
 ## At sprint boundaries
 
-At sprint planning and again at sprint review, reconcile the fields on every open item:
+At sprint planning and again at sprint review, reconcile the fields:
 
 ```bash
 python3 scripts/reconcile_project_fields.py           # dry run
 python3 scripts/reconcile_project_fields.py --apply   # write
 ```
 
-The script needs the GitHub CLI with the `project` scope. It checks open Issues and pull requests in the Project's linked repositories, and open items already in the Project from any other repository. For each item, it:
+The script needs the GitHub CLI with the `project` scope. It checks open Issues and pull requests in the Project's linked repositories, open items already in the Project from any other repository, and closed items whose title carries a sprint ID. With `--apply`, it:
 
+- creates a missing `Sprint` option for each sprint ID whose codeword is an `Initiative` option, keeping every existing option and its ID so no item loses its value;
 - sets `Initiative` from the item's codeword label;
-- sets `Sprint` from the sprint ID in the title, or `backlog` if the title has none;
-- adds missing open items from linked repositories (`--apply` only).
+- sets `Sprint` from the sprint ID in the title, or `backlog` if an open item's title has none;
+- adds missing items from linked repositories.
 
 The script reports gaps and leaves those items unchanged:
 
 - no codeword label, or more than one;
-- a sprint ID with no matching `Sprint` option (E0a was missed);
-- a missing `Status`;
+- a sprint ID whose codeword is not an `Initiative` option;
+- a missing `Status` on an open item;
 - any draft item.
 
-The sprint review reports the result. The target is zero pending changes and zero gaps on open items. Label/field mismatches are listed in the review even after they are fixed.
+Gaps on closed items are reported but do not fail the run. The sprint review reports the result. The target is zero pending changes and zero gaps on open items. Label/field mismatches are listed in the review even after they are fixed.
 
 ## Sprint review
 
