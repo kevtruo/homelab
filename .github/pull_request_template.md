@@ -29,10 +29,10 @@ gate scans for these; a clean scan does not replace review. -->
 
 ## Provenance
 
-Submitter: Claude Code session via kevtruo, [session link]
+Submitter: claude-coworker (Claude Code session), [session link]
 
-<!-- The GitHub author is kevtruo, so kevtruo cannot be requested as reviewer
-or formally approve. Record the human review decision separately. -->
+<!-- Author and assignee claude-coworker; kevtruo is requested as reviewer and
+approves before merging. Commits are authored as Claude <noreply@anthropic.com>. -->
 
 ## Tracking
 
@@ -43,6 +43,6 @@ never a claim. -->
 - [ ] `Closes #N` above, or a non-closing reference with Development linkage verified.
 - [ ] Codeword label applied (one only).
 - [ ] Issue and PR added to Homelab Project #1; Status, Initiative and Sprint set.
-- [ ] Assignee kevtruo.
-- [ ] Reviewer gap noted: kevtruo-authored PRs cannot request kevtruo as reviewer.
+- [ ] Assignee claude-coworker.
+- [ ] kevtruo requested as reviewer.
 - [ ] Submitter field filled above.
