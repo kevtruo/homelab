@@ -1,6 +1,6 @@
 # Tracking procedure
 
-This is the interim procedure for tracking work done by Claude Code execution sessions in the [Homelab Project](https://github.com/users/kevtruo/projects/1). It applies until the AI contributor identity is in place under `yeoman`. Field definitions and labeling rules are in [Initiatives](initiatives.md#tracking).
+This is the procedure for tracking work done by Claude Code execution sessions, which act as the machine account described in [AI contributor](ai-contributor.md), in the [Homelab Project](https://github.com/users/kevtruo/projects/1). Field definitions and labeling rules are in [Initiatives](initiatives.md#tracking).
 
 ## At every sprint plan
 

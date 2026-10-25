@@ -1,39 +1,40 @@
 # AI contributor
 
-AI contributions to Homelab repositories come from Claude Code execution sessions. A session works on a branch and opens a pull request through the operator's own account, and the pull request names the session as its submitter. The bot contributor model, where an App account authors pull requests, was proven in a private sandbox repository under `yeoman-1`. It is not used in production.
+AI contributions to Homelab repositories come from Claude Code execution sessions. A session acts as a machine account, `claude-coworker`, which the operator controls. It works on a branch, opens a pull request, and names itself as the submitter. The operator reviews and approves every pull request before merging it. The bot contributor model, where an App account authors pull requests, was proven in a private sandbox repository under `yeoman-1`. It is not used in production.
 
 ## Production model
 
 - **Contributor:** a Claude Code execution session, working within the sprint scope the Pilot authorized.
-- **GitHub author:** the operator. Sessions push and open pull requests with the operator's account.
-- **Submitter record:** every pull request carries a `Submitter` field, `Claude Code session via <operator>, <session link>`, and commits carry a Claude co-author trailer.
+- **GitHub author:** `claude-coworker`, a machine account the operator controls. It is a collaborator with write access, not an administrator, so it cannot change repository settings or rulesets.
+- **Pull requests:** author and assignee `claude-coworker`; the operator is requested as reviewer.
+- **Submitter record:** every pull request carries a `Submitter` field, `claude-coworker (Claude Code session), <session link>`. Commits are authored as `Claude <noreply@anthropic.com>`, never with the account's own no-reply address, so the account's user ID stays out of public history.
+- **Approval:** the operator approves every machine-account pull request before merging; a merge with no approval on record is not done. Sessions never approve or merge, even though write access would allow it. This is policy: GitHub cannot stop a collaborator's approval from counting.
 - **No bot:** no AI contributor App is installed and no AI contributor workflow runs in production repositories.
-- **Review limitation:** the author is the operator, so GitHub does not let the operator be requested as reviewer or formally approve. The pull request records the human review decision instead.
 
-## Why sessions, not a bot
+## Why a machine account, not a bot
 
-- **One operator.** The operator is the only human reviewer. A bot identity would let the operator approve formally, but the review would come from the same person. It would not add independent review.
+- **Formal review without an App.** A separate account lets the operator be requested as reviewer and approve formally, without installing an App or running an agent in Actions.
 - **The gate is the control.** What protects `main` is that every change arrives by pull request, passes the always-run `gate` check, and is reviewed against the [code review standard](code-review.md). The author's identity is not the control.
-- **Less to defend.** The bot model needs an App whose permission set includes workflow write, a model access token stored as a secret, and an OIDC token request in the workflow (G1, G2 and G6 below). Sessions need none of these in production repositories.
+- **Less to defend.** The bot model needs an App whose permission set includes workflow write, a model access token stored as a secret, and an OIDC token request in the workflow (G1, G2 and G6 below). A machine account needs none of these.
 
 ## Production rules
 
-Each Homelab repository has two rulesets on its default branch. They are split so that the administrator bypass for review cannot skip the required check: a bypass applies to every rule in its ruleset.
+Each Homelab repository has two rulesets on its default branch. They are split because a bypass applies to every rule in its ruleset: the required check sits in a ruleset with no bypass, so no merge can skip it.
 
 | Ruleset | Rule | Setting |
 | --- | --- | --- |
-| Review | Pull request | Required, with 1 approval. A new commit dismisses an existing approval. Conversations must be resolved. |
+| Review | Pull request | Required, with 1 approval. A new commit dismisses an existing approval. Conversations must be resolved. An unattributed Copilot pull request needs one extra approval. |
+| Review | Force pushes | Blocked |
+| Review | Deletion | Restricted |
 | Review | Bypass | The repository administrator role, for pull requests only. No other actor. |
 | Gate | Required status check | `gate` only, reported by GitHub Actions |
-| Gate | Force pushes | Blocked |
-| Gate | Deletion | Restricted |
 | Gate | Bypass | None |
 
 Not used: code owner review, required signed commits, and an update restriction rule.
 
-Because the operator authors every pull request and cannot approve it, each merge bypasses the review ruleset through the pull request, and the bypass is visible in rule insights. The gate ruleset has no bypass, so no merge to the default branch can skip a passing `gate`. Direct pushes to the default branch are blocked, because the review ruleset requires a pull request and its bypass works only through one.
+A machine-account pull request merges through the operator's approval and a passing `gate`, with no bypass. The administrator bypass is for pull requests the operator authors, and it skips only the review rules. Because the bypass works only through a pull request, direct pushes, force pushes and deletion of the default branch stay blocked for everyone.
 
-There is no update restriction rule. The sandbox showed that an administrator-only update rule makes every merge a bypass and hides a skipped approval among normal merges. Pull-request-only bypass already blocks direct pushes.
+There is no update restriction rule. The sandbox showed that an administrator-only update rule makes every merge a bypass and hides a skipped approval among normal merges.
 
 Rulesets on a private repository need a paid GitHub plan. On the free plan, neither rulesets nor protected branches apply to private repositories.
 
